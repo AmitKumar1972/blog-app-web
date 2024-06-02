@@ -28,23 +28,24 @@ const commentSlice = createSlice({
     error: null,
   },
   reducers: {},
-  extraReducers: {
-    [addComment.fulfilled]: (state, action) => {
-      state.comments.push(action.payload);
-      state.loading = false;
-    },
-    [addComment.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    [deleteComment.fulfilled]: (state, action) => {
-      state.comments = state.comments.filter(comment => comment._id !== action.payload);
-      state.loading = false;
-    },
-    [deleteComment.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.comments.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(addComment.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.comments = state.comments.filter(comment => comment._id !== action.payload);
+        state.loading = false;
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
   },
 });
 

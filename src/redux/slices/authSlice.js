@@ -38,37 +38,38 @@ const authSlice = createSlice({
       state.error = null;
     },
   },
-  extraReducers: {
-    [register.fulfilled]: (state, action) => {
-      localStorage.setItem('token', action.payload.token);
-      state.isAuthenticated = true;
-      state.loading = false;
-      state.user = action.payload.user;
-      state.error = null;
-    },
-    [register.rejected]: (state, action) => {
-      localStorage.removeItem('token');
-      state.token = null;
-      state.isAuthenticated = false;
-      state.loading = false;
-      state.user = null;
-      state.error = action.payload;
-    },
-    [login.fulfilled]: (state, action) => {
-      localStorage.setItem('token', action.payload.token);
-      state.isAuthenticated = true;
-      state.loading = false;
-      state.user = action.payload.user;
-      state.error = null;
-    },
-    [login.rejected]: (state, action) => {
-      localStorage.removeItem('token');
-      state.token = null;
-      state.isAuthenticated = false;
-      state.loading = false;
-      state.user = null;
-      state.error = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(register.fulfilled, (state, action) => {
+        localStorage.setItem('token', action.payload.token);
+        state.isAuthenticated = true;
+        state.loading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(register.rejected, (state, action) => {
+        localStorage.removeItem('token');
+        state.token = null;
+        state.isAuthenticated = false;
+        state.loading = false;
+        state.user = null;
+        state.error = action.payload;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        localStorage.setItem('token', action.payload.token);
+        state.isAuthenticated = true;
+        state.loading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(login.rejected, (state, action) => {
+        localStorage.removeItem('token');
+        state.token = null;
+        state.isAuthenticated = false;
+        state.loading = false;
+        state.user = null;
+        state.error = action.payload;
+      });
   },
 });
 

@@ -56,50 +56,51 @@ const blogSlice = createSlice({
     error: null,
   },
   reducers: {},
-  extraReducers: {
-    [getBlogs.fulfilled]: (state, action) => {
-      state.blogs = action.payload;
-      state.loading = false;
-    },
-    [getBlogs.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    [getBlog.fulfilled]: (state, action) => {
-      state.blog = action.payload;
-      state.loading = false;
-    },
-    [getBlog.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    [addBlog.fulfilled]: (state, action) => {
-      state.blogs.push(action.payload);
-      state.loading = false;
-    },
-    [addBlog.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    [updateBlog.fulfilled]: (state, action) => {
-      const index = state.blogs.findIndex(blog => blog._id === action.payload._id);
-      if (index !== -1) {
-        state.blogs[index] = action.payload;
-      }
-      state.loading = false;
-    },
-    [updateBlog.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    [deleteBlog.fulfilled]: (state, action) => {
-      state.blogs = state.blogs.filter(blog => blog._id !== action.payload);
-      state.loading = false;
-    },
-    [deleteBlog.rejected]: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getBlogs.fulfilled, (state, action) => {
+        state.blogs = action.payload;
+        state.loading = false;
+      })
+      .addCase(getBlogs.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(getBlog.fulfilled, (state, action) => {
+        state.blog = action.payload;
+        state.loading = false;
+      })
+      .addCase(getBlog.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(addBlog.fulfilled, (state, action) => {
+        state.blogs.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(addBlog.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(updateBlog.fulfilled, (state, action) => {
+        const index = state.blogs.findIndex(blog => blog._id === action.payload._id);
+        if (index !== -1) {
+          state.blogs[index] = action.payload;
+        }
+        state.loading = false;
+      })
+      .addCase(updateBlog.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(deleteBlog.fulfilled, (state, action) => {
+        state.blogs = state.blogs.filter(blog => blog._id !== action.payload);
+        state.loading = false;
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
   },
 });
 
