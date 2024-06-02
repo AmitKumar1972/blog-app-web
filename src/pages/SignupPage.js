@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { register } from '../redux/slices/authSlice';
 import Button from '@mui/material/Button';
@@ -11,6 +11,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import { useForm } from '@mantine/form';
+import { getCookie } from '../utils/cookies';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,8 +19,14 @@ const SignupPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const token = getCookie('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   const handleSubmit = async (values) => {
     setEmailError('');
@@ -32,6 +39,8 @@ const SignupPage = () => {
         email: values.email,
         password: values.password,
       })).unwrap();
+
+      <Navigate to="/home" />;
     } catch (error) {
       setLoading(false);
       const errorMessage = error.msg || error.response?.data?.message || 'An error occurred. Please try again later.';
@@ -67,8 +76,8 @@ const SignupPage = () => {
     event.preventDefault();
   };
 
-  if (auth.isAuthenticated) {
-    return <Navigate to="/dashboard" />;
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
   }
 
   return (

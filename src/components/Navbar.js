@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/slices/authSlice';
+import { logout, fetchUserDetails } from '../redux/slices/authSlice';
+import { getCookie } from '../utils/cookies';
 
 const Navbar = () => {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
-  const onLogout = () => {
-    dispatch(logout());
+  useEffect(() => {
+    const token = getCookie('token');
+    if (token) {
+      dispatch(fetchUserDetails());
+    }
+  }, [dispatch]);
+
+  const onLogout = async () => {
+    await dispatch(logout());
+    <Navigate to="/login" />;
   };
 
   const authLinks = (
     <>
+      <Typography variant="h6" component="div">
+        {auth.user && `Hello, ${auth.user.name}`}
+      </Typography>
       <Button color="inherit" component={Link} to="/dashboard">Dashboard</Button>
       <Button color="inherit" onClick={onLogout}>Logout</Button>
     </>
@@ -32,7 +44,7 @@ const Navbar = () => {
         <Typography variant="h6" component={Link} to="/" style={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
           Blog Application
         </Typography>
-        {auth.isAuthenticated ? authLinks : guestLinks}
+        {auth.user ? authLinks : guestLinks}
       </Toolbar>
     </AppBar>
   );
