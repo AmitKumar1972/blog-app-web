@@ -39,8 +39,6 @@ const SignupPage = () => {
         email: values.email,
         password: values.password,
       })).unwrap();
-
-      <Navigate to="/" />;
     } catch (error) {
       setLoading(false);
       const errorMessage = error.msg || error.response?.data?.message || 'An error occurred. Please try again later.';

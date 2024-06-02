@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBlog } from '../redux/slices/blogSlice';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import Editor from '../components/Editor';
+import { Navigate } from 'react-router-dom';
 
 const AddBlogPage = () => {
   const dispatch = useDispatch();
@@ -10,7 +12,8 @@ const AddBlogPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addBlog({ title, body: content }));
+    await dispatch(addBlog({ title, body: content })).unwrap();
+    <Navigate to="/" />;
   };
 
   return (
@@ -31,18 +34,7 @@ const AddBlogPage = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="content"
-            label="Content"
-            name="content"
-            multiline
-            rows={6}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <Editor content={content} onChange={setContent} />
           <Button
             type="submit"
             fullWidth

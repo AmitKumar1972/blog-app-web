@@ -30,6 +30,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const fetchUserDetails = createAsyncThunk('auth/fetchUserDetails', async (_, thunkAPI) => {
   try {
+    console.log('it is called')
     const token = getCookie('token');
     if (!token) throw new Error('No token found');
     const response = await axios.get('/api/auth/user', {
@@ -37,6 +38,7 @@ export const fetchUserDetails = createAsyncThunk('auth/fetchUserDetails', async 
         Authorization: `Bearer ${token}`
       }
     });
+    console.log(response.data)
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);

@@ -10,32 +10,37 @@ import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import { MantineProvider } from "@mantine/core";
 import AddBlogPage from './pages/AddBlogPage';
+import '@mantine/tiptap/styles.css';
+import "@mantine/core/styles.css";
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <ConditionalNavbar />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/add-blog" element={<PrivateRoute><AddBlogPage /></PrivateRoute>} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/blog/:id" element={<BlogPostPage />} />
-          <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <DashboardPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <MantineProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <ConditionalNavbar />
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/add-blog" element={<PrivateRoute><AddBlogPage /></PrivateRoute>} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog/:id" element={<BlogPostPage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <DashboardPage />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </MantineProvider>
   );
 };
 
