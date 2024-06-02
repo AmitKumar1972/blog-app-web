@@ -22,25 +22,25 @@ const LoginPage = () => {
   const auth = useSelector((state) => state.auth);
 
   const handleSubmit = async (values) => {
-    console.log('yahan aagya');
     setEmailError('');
     setPasswordError('');
     setError('');
     setLoading(true);
     try {
-      dispatch(login({
+      await dispatch(login({
         email: values.email,
         password: values.password,
-      }));
+      })).unwrap();
     } catch (error) {
-      setError(error.response.data);
-      const errorMessage = (error).message;
-      if (errorMessage.includes('Invalid password')) {
+      setLoading(false);
+      console.log(error)
+      const errorMessage = error.msg || error.response?.data?.message || 'An error occurred. Please try again later.';
+      if (errorMessage.includes('Invalid Password')) {
         setPasswordError('The password you entered is incorrect.');
-      } else if (errorMessage.includes('User not found')) {
+      } else if (errorMessage.includes('Invalid credentials')) {
         setEmailError('No account exists with the provided email address.');
       } else {
-        setError('An error occurred. Please try again later.');
+        setError(errorMessage);
       }
     } finally {
       setLoading(false);
@@ -55,7 +55,7 @@ const LoginPage = () => {
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      // password: (value) => (value.length >= 6 ? null : 'Password must be at least 6 characters'),
+      password: (value) => (value.length >= 6 ? null : 'Password must be at least 6 characters'),
     },
   });
 

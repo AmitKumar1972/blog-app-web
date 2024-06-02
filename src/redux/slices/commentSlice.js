@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../axios';
 
 // Thunks
 export const addComment = createAsyncThunk('comment/addComment', async ({ blogId, formData }, thunkAPI) => {
