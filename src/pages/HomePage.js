@@ -35,13 +35,9 @@ const HomePage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {isAuthenticated ? (
-          <Button component={Link} to="/dashboard" variant="contained" color="primary" sx={{ mt: 2 }}>
-            Go to Dashboard
-          </Button>
-        ) : (
-          <Button component={Link} to="/login" variant="contained" color="primary" sx={{ mt: 2 }}>
-            Login
+        {isAuthenticated && (
+          <Button component={Link} to="/add-blog" variant="contained" color="primary" sx={{ mt: 2 }}>
+            Add Blog
           </Button>
         )}
         <BlogList blogs={filteredBlogs} />

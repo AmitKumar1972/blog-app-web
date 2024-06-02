@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { getCookie } from '../../utils/cookies';
 
 // Thunks
 export const getBlogs = createAsyncThunk('blog/getBlogs', async (_, thunkAPI) => {
@@ -22,7 +23,14 @@ export const getBlog = createAsyncThunk('blog/getBlog', async (id, thunkAPI) => 
 
 export const addBlog = createAsyncThunk('blog/addBlog', async (formData, thunkAPI) => {
   try {
-    const response = await axios.post('/api/blogs', formData);
+    const token = getCookie('token');
+    if (!token) throw new Error('No token found');
+    const response = await axios.post('/api/blogs', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    );
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);

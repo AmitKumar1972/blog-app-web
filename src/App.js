@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import AddBlogPage from './pages/AddBlogPage';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/add-blog" element={<PrivateRoute><AddBlogPage /></PrivateRoute>} />
           <Route path="/" element={<HomePage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/profile/:id" element={<ProfilePage />} />

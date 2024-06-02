@@ -40,7 +40,7 @@ const SignupPage = () => {
         password: values.password,
       })).unwrap();
 
-      <Navigate to="/home" />;
+      <Navigate to="/" />;
     } catch (error) {
       setLoading(false);
       const errorMessage = error.msg || error.response?.data?.message || 'An error occurred. Please try again later.';
@@ -77,7 +77,7 @@ const SignupPage = () => {
   };
 
   if (isAuthenticated) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
 
   return (
