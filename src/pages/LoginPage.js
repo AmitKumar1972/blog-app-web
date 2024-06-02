@@ -33,7 +33,6 @@ const LoginPage = () => {
       })).unwrap();
     } catch (error) {
       setLoading(false);
-      console.log(error)
       const errorMessage = error.msg || error.response?.data?.message || 'An error occurred. Please try again later.';
       if (errorMessage.includes('Invalid Password')) {
         setPasswordError('The password you entered is incorrect.');
